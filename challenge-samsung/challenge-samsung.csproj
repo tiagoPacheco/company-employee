@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Services\IBalanceService.cs" />
+    <Compile Include="Services\Impl\BalanceService.cs" />
     <Compile Include="Utils\Consts\Commands.cs" />
     <Compile Include="GlobalStorage.cs" />
     <Compile Include="Messages.cs" />
