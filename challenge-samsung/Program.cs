@@ -13,6 +13,7 @@ namespace challenge_samsung
             IFileService fileService = new FileService(globalStorage);
             IAllocationService allocationService = new AllocationService(globalStorage);
             IPromotionService promotionService = new PromotionService(globalStorage);
+            IBalanceService balanceService = new BalanceService(globalStorage);
 
             var option = string.Empty;
 
@@ -27,7 +28,7 @@ namespace challenge_samsung
                         allocationService.Allocate();
                         break;
                     case Commands.balance:
-                        Console.WriteLine(Commands.balance);
+                        balanceService.BalanceTeams();
                         break;
                     case Commands.load:
                         fileService.LoadFileTeam(optionSplit[1]);
