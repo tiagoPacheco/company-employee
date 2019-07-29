@@ -1,0 +1,7 @@
+C:\Users\tiago\OneDrive\Documentos\Projetos\challenge-samsung\challenge-samsung\bin\Debug\challenge-samsung.exe.config
+C:\Users\tiago\OneDrive\Documentos\Projetos\challenge-samsung\challenge-samsung\bin\Debug\challenge-samsung.exe
+C:\Users\tiago\OneDrive\Documentos\Projetos\challenge-samsung\challenge-samsung\bin\Debug\challenge-samsung.pdb
+C:\Users\tiago\OneDrive\Documentos\Projetos\challenge-samsung\challenge-samsung\obj\Debug\challenge-samsung.csprojAssemblyReference.cache
+C:\Users\tiago\OneDrive\Documentos\Projetos\challenge-samsung\challenge-samsung\obj\Debug\challenge-samsung.csproj.CoreCompileInputs.cache
+C:\Users\tiago\OneDrive\Documentos\Projetos\challenge-samsung\challenge-samsung\obj\Debug\challenge-samsung.exe
+C:\Users\tiago\OneDrive\Documentos\Projetos\challenge-samsung\challenge-samsung\obj\Debug\challenge-samsung.pdb
