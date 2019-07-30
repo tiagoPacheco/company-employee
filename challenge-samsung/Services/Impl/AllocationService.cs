@@ -14,20 +14,20 @@ namespace challenge_samsung.Services.Impl
             _globalStorage = globalStorage;
         }
 
-        public void Allocate()
+        public List<Team> Allocate(List<Team> teams, List<Employee> employees)
         {
-            var qtyTeams = _globalStorage.Teams.Count;
-            var employees = _globalStorage.EmployeesFromFile.OrderByDescending(o => o.Level).ToList();
-            _globalStorage.Teams = _globalStorage.Teams.OrderByDescending(o => o.MinMaturity).ToList();
+            var qtyTeams = teams.Count;
+            employees = employees.OrderByDescending(o => o.Level).ToList();
+            teams = teams.OrderByDescending(o => o.MinMaturity).ToList();
            
             while (employees.Count != 0)
             {
-                while (_globalStorage.Teams.Any(t => t.CurrentMaturity < t.MinMaturity) 
+                while (teams.Any(t => t.CurrentMaturity < t.MinMaturity) 
                         && employees.Count != 0)
                 {
                     for (int teamIndex = 0; teamIndex < qtyTeams; teamIndex++)
                     {
-                        var team = _globalStorage.Teams[teamIndex];
+                        var team = teams[teamIndex];
 
                         if (employees.Count == 0) break;
 
@@ -43,12 +43,14 @@ namespace challenge_samsung.Services.Impl
                     {
                         if (employees.Count == 0) break;
 
-                        var team = _globalStorage.Teams[teamIndex];
+                        var team = teams[teamIndex];
 
                         AllocateInTeam(employees, team);
                     }
                 }
             }
+
+            return teams;
         }
 
         private void AllocateInTeam(List<Employee> employees, Team team)

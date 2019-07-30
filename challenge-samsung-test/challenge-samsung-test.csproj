@@ -62,7 +62,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileServiceUnitTest.cs" />
+    <Compile Include="Services\AllocateServiceUnitTest.cs" />
+    <Compile Include="Services\BalanceServiceUnitTest.cs" />
+    <Compile Include="Services\PromotionServiceUnitTest.cs" />
+    <Compile Include="Services\FileServiceUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

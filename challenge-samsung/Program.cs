@@ -30,11 +30,11 @@ namespace challenge_samsung
                     switch (option)
                     {
                         case Commands.allocate:
-                            allocationService.Allocate();
+                            globalStorage.Teams = allocationService.Allocate(globalStorage.Teams, globalStorage.EmployeesFromFile);
                             consoleService.ShowTeamsAndEmployees(globalStorage.Teams);
                             break;
                         case Commands.balance:
-                            globalStorage.Teams = balanceService.BalanceTeams();
+                            globalStorage.Teams = balanceService.BalanceTeams(globalStorage.Teams);
                             consoleService.ShowTeamsAndEmployees(globalStorage.Teams);
                             break;
                         case Commands.load:

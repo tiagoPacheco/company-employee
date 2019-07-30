@@ -13,14 +13,13 @@ namespace challenge_samsung.Services.Impl
             _globalStorage = globalStorage;
         }
 
-        public List<Team> BalanceTeams()
+        public List<Team> BalanceTeams(List<Team> teams)
         {
-
-            var teams = _globalStorage.Teams.OrderByDescending(o => o.MinMaturity).ToList();
-            var employees = _globalStorage.EmployeesFromFile.OrderByDescending(o => o.Level).ToList();
+            var teamsOrded = teams.OrderByDescending(o => o.MinMaturity).ToList();
+            var employees = _globalStorage.EmployeesInTeam.OrderByDescending(o => o.Level).ToList();
             employees.ForEach(e => e.IsInAnyTeam = false);
 
-            List<Team> newTeams = AllocateEmployeesAtLeastTeamMaturity(teams, employees);
+            List<Team> newTeams = AllocateEmployeesAtLeastTeamMaturity(teamsOrded, employees);
             BalanceTeamsAndAllocateMissingEmployees(ref teams, ref employees);
 
             return teams;

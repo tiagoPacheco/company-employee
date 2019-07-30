@@ -5,6 +5,6 @@ namespace challenge_samsung.Services
 {
     public interface IBalanceService
     {
-        List<Team> BalanceTeams();
+        List<Team> BalanceTeams(List<Team> team);
     }
 }
