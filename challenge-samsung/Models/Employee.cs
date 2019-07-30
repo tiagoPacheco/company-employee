@@ -12,5 +12,7 @@
 
         public int LastProgressionYear { get; set; }
 
+        public bool IsInAnyTeam { get; set; }
+
     }
 }

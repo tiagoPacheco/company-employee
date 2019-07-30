@@ -1,4 +1,7 @@
-﻿namespace challenge_samsung.Services
+﻿using challenge_samsung.Models;
+using System.Collections.Generic;
+
+namespace challenge_samsung.Services
 {
     public interface IFileService
     {
@@ -6,12 +9,12 @@
         /// Reads the Team file and store on global class
         /// </summary>
         /// <param name="file">Team file</param>
-        void LoadFileTeam(string file);
+        List<Team> LoadFileTeam(string file);
 
         /// <summary>
         /// Reads the Employee file and store on global class
         /// </summary>
         /// <param name="file">Employees file</param>
-        void LoadFileEmployee(string file);
+        List<Employee> LoadFileEmployee(string file);
     }
 }

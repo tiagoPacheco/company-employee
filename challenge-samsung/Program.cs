@@ -14,26 +14,29 @@ namespace challenge_samsung
             IAllocationService allocationService = new AllocationService(globalStorage);
             IPromotionService promotionService = new PromotionService(globalStorage);
             IBalanceService balanceService = new BalanceService(globalStorage);
+            IConsoleService consoleService = new ConsoleService();
 
             var option = string.Empty;
-
+            
             while (option != Commands.exit)
             {
-                var optionSplit = Console.ReadLine().ToLower().Split();
+                var optionSplit = GetConsoleParameters();
 
                 option = optionSplit[0];
                 switch (option)
                 {
                     case Commands.allocate:
                         allocationService.Allocate();
+                        consoleService.ShowClassAndEmployees(globalStorage.Teams);
                         break;
                     case Commands.balance:
-                        balanceService.BalanceTeams();
+                        globalStorage.Teams = balanceService.BalanceTeams();
+                        consoleService.ShowClassAndEmployees(globalStorage.Teams);
                         break;
                     case Commands.load:
-                        fileService.LoadFileTeam(optionSplit[1]);
-                        fileService.LoadFileEmployee(optionSplit[2]);
-                        Console.WriteLine("loaded");
+                        globalStorage.Teams = fileService.LoadFileTeam(optionSplit[1]);
+                        globalStorage.EmployeesFromFile = fileService.LoadFileEmployee(optionSplit[2]);
+                        Console.WriteLine(Messages.MSG002);
                         break;
                     case Commands.promote:
                         promotionService.Promote(int.Parse(optionSplit[1]));
@@ -45,6 +48,11 @@ namespace challenge_samsung
                         break;
                 }
             }
+        }
+
+        private static string[] GetConsoleParameters()
+        {
+            return Console.ReadLine().ToLower().Split();
         }
     }
 }

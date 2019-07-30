@@ -49,24 +49,6 @@ namespace challenge_samsung.Services.Impl
                     }
                 }
             }
-
-            ShowTeams();
-        }
-
-        private void ShowTeams()
-        {
-            for (int i = 0; i < _globalStorage.Teams.Count; i++)
-            {
-                var team = _globalStorage.Teams[i];
-                Console.WriteLine($"{team.Name} - Min. Maturity {team.MinMaturity} - Current Maturity {team.CurrentMaturity}");
-                for (int j = 0; j < team.Employees.Count; j++)
-                {
-                    var employee = team.Employees[j];
-                    Console.WriteLine($"{employee.Name} - {employee.Level}");
-                }
-
-                Console.WriteLine();
-            }
         }
 
         private void AllocateInTeam(List<Employee> employees, Team team)
@@ -74,8 +56,8 @@ namespace challenge_samsung.Services.Impl
             var employeeIndex = 0;
 
             var employee = employees[employeeIndex];
+            employee.IsInAnyTeam = true;
             team.Employees.Add(employee);
-            team.CurrentMaturity += employee.Level;
             employees.RemoveAt(employeeIndex);
         }
     }
