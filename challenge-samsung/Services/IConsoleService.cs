@@ -10,8 +10,18 @@ namespace challenge_samsung.Services.Impl
         /// Show teams with their employees
         /// </summary>
         /// <param name="teams"></param>
-        void ShowClassAndEmployees(List<Team> teams);
+        void ShowTeamsAndEmployees(List<Team> teams);
 
+        /// <summary>
+        /// Show initial information
+        /// </summary>
+        /// <param name="teams"></param>
         void ShowInitialInformation();
+
+        /// <summary>
+        /// Show teams with their employees (detail)
+        /// </summary>
+        /// <param name="teams"></param>
+        void ShowTeamsAndEmployeesDetail(List<Team> teams);
     }
 }

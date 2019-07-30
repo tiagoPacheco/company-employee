@@ -14,7 +14,7 @@ namespace challenge_samsung.Services.Impl
         {
         }
 
-        public void ShowClassAndEmployees(List<Team> teams)
+        public void ShowTeamsAndEmployees(List<Team> teams)
         {
             for (int i = 0; i < teams.Count; i++)
             {
@@ -24,6 +24,23 @@ namespace challenge_samsung.Services.Impl
                 {
                     var employee = team.Employees[j];
                     Console.WriteLine($"{employee.Name} - {employee.Level}");
+                }
+
+                Console.WriteLine();
+            }
+        }
+
+        public void ShowTeamsAndEmployeesDetail(List<Team> teams)
+        {
+            for (int i = 0; i < teams.Count; i++)
+            {
+                var team = teams[i];
+                Console.WriteLine($"{team.Name} - Min. Maturity {team.MinMaturity} - Current Maturity {team.CurrentMaturity}");
+                for (int j = 0; j < team.Employees.Count; j++)
+                {
+                    var employee = team.Employees[j];
+                    Console.WriteLine(
+                        string.Format(Messages.MSG005, employee.Name, employee.Level, employee.BirthYear, employee.AdmissionYear, employee.LastProgressionYear));
                 }
 
                 Console.WriteLine();

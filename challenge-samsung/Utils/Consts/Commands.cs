@@ -7,5 +7,6 @@
         public const string promote = "promote";
         public const string balance = "balance";
         public const string exit = "exit";
+        public const string showTeams = "show_teams";
     }
 }

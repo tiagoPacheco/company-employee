@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using challenge_samsung.Models;
+using challenge_samsung.Utils;
+using System.Linq;
 
 namespace challenge_samsung.Services.Impl
 {
@@ -19,7 +21,7 @@ namespace challenge_samsung.Services.Impl
             return ReadFile(file, ReadFileEmployee);
         }
 
-        private Employee ReadFileEmployee(string[] employee)
+        private Employee ReadFileEmployee(List<string> employee)
         {
             return new Employee()
             {
@@ -27,7 +29,7 @@ namespace challenge_samsung.Services.Impl
                 Level = int.Parse(employee[1]),
                 BirthYear = int.Parse(employee[2]),
                 AdmissionYear = int.Parse(employee[3]),
-                LastProgressionYear = int.Parse(employee[4])
+                LastProgressionYear = int.Parse(employee.ElementAtOrDefault(2) != null && employee[4] != "" ? employee[4] : employee[3])
             };
         }
 
@@ -36,7 +38,7 @@ namespace challenge_samsung.Services.Impl
             return ReadFile(file, ReadFileTeam);
         }
 
-        private Team ReadFileTeam(string[] team)
+        private Team ReadFileTeam(List<string> team)
         {
             return new Team()
             {
@@ -45,11 +47,14 @@ namespace challenge_samsung.Services.Impl
             };
         }
 
-        private List<Type> ReadFile<Type>(string fileName, Func<string[], Type> readFileDelegate)
+        private List<Type> ReadFile<Type>(string fileName, Func<List<string>, Type> readFileDelegate)
         {
             List<Type> data = new List<Type>();
 
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "\\" + fileName.Replace("\"", ""));
+            CheckIfFileNameExist(fileName);
+
+            var path = Directory.GetCurrentDirectory() + "\\" + fileName.Replace("\"", "");
+            CheckIfFileExist(fileName, path);
 
             using (FileStream fs = File.Open(path, FileMode.Open, FileAccess.Read))
             using (BufferedStream bs = new BufferedStream(fs))
@@ -59,11 +64,27 @@ namespace challenge_samsung.Services.Impl
                 string s;
                 while ((s = sr.ReadLine()) != null)
                 {
-                    data.Add(readFileDelegate(s.Split(',')));
+                    data.Add(readFileDelegate(s.Split(',').ToList()));
                 }
             }
 
             return data;
+        }
+
+        private void CheckIfFileExist(string fileName, string path)
+        {
+            if (!File.Exists(path))
+            {
+                throw new BusinessException(String.Format(Messages.MSG004, fileName, path));
+            }
+        }
+
+        private void CheckIfFileNameExist(string fileName)
+        {
+            if (fileName == null)
+            {
+                throw new BusinessException(Messages.MSG003);
+            }
         }
     }
 }

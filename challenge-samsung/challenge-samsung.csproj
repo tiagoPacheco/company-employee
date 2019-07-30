@@ -47,6 +47,7 @@
     <Compile Include="Services\IBalanceService.cs" />
     <Compile Include="Services\Impl\BalanceService.cs" />
     <Compile Include="Services\Impl\ConsoleService.cs" />
+    <Compile Include="Utils\BussinessException.cs" />
     <Compile Include="Utils\Consts\Commands.cs" />
     <Compile Include="GlobalStorage.cs" />
     <Compile Include="Messages.cs" />

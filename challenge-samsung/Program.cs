@@ -1,7 +1,9 @@
 ﻿using challenge_samsung.Consts;
 using challenge_samsung.Services;
 using challenge_samsung.Services.Impl;
+using challenge_samsung.Utils;
 using System;
+using System.Linq;
 
 namespace challenge_samsung
 {
@@ -17,35 +19,45 @@ namespace challenge_samsung
             IConsoleService consoleService = new ConsoleService();
 
             var option = string.Empty;
-            
+
             while (option != Commands.exit)
             {
                 var optionSplit = GetConsoleParameters();
 
                 option = optionSplit[0];
-                switch (option)
+                try
                 {
-                    case Commands.allocate:
-                        allocationService.Allocate();
-                        consoleService.ShowClassAndEmployees(globalStorage.Teams);
-                        break;
-                    case Commands.balance:
-                        globalStorage.Teams = balanceService.BalanceTeams();
-                        consoleService.ShowClassAndEmployees(globalStorage.Teams);
-                        break;
-                    case Commands.load:
-                        globalStorage.Teams = fileService.LoadFileTeam(optionSplit[1]);
-                        globalStorage.EmployeesFromFile = fileService.LoadFileEmployee(optionSplit[2]);
-                        Console.WriteLine(Messages.MSG002);
-                        break;
-                    case Commands.promote:
-                        promotionService.Promote(int.Parse(optionSplit[1]));
-                        break;
-                    case Commands.exit:
-                        break;
-                    default:
-                        Console.WriteLine(Messages.MSG001);
-                        break;
+                    switch (option)
+                    {
+                        case Commands.allocate:
+                            allocationService.Allocate();
+                            consoleService.ShowTeamsAndEmployees(globalStorage.Teams);
+                            break;
+                        case Commands.balance:
+                            globalStorage.Teams = balanceService.BalanceTeams();
+                            consoleService.ShowTeamsAndEmployees(globalStorage.Teams);
+                            break;
+                        case Commands.load:
+                            globalStorage.Teams = fileService.LoadFileTeam(optionSplit.ElementAtOrDefault(1));
+                            globalStorage.EmployeesFromFile = fileService.LoadFileEmployee(optionSplit.ElementAtOrDefault(2));
+                            Console.WriteLine(Messages.MSG002);
+                            break;
+                        case Commands.promote:
+                            promotionService.Promote(int.Parse(optionSplit[1]));
+                            break;
+                        case Commands.showTeams:
+                            consoleService.ShowTeamsAndEmployeesDetail(globalStorage.Teams);
+                            break;
+                        case Commands.exit:
+                            break;
+                        default:
+                            Console.WriteLine(Messages.MSG001);
+                            break;
+                    }
+                }
+                catch (BusinessException e)
+                {
+                    Console.WriteLine(e.Message);
                 }
             }
         }
