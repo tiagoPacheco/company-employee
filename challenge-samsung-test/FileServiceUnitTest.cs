@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using challenge_samsung;
+using challenge_samsung.Models;
 using challenge_samsung.Services;
 using challenge_samsung.Services.Impl;
 using challenge_samsung.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace challenge_samsung_test
 {
@@ -56,11 +59,5 @@ namespace challenge_samsung_test
             var ex = Assert.ThrowsException<BusinessException>(() => _fileService.LoadFileEmployee(fileName));
             Assert.AreEqual(string.Format(Messages.MSG004, fileName, Directory.GetCurrentDirectory() + "\\" + fileName.Replace("\"", "")), ex.Message);
         }
-
-        [TestMethod]
-        public void File_Employee_Load_Sucess()
-        {
-            var calculator = new Mock<IFileService>();
-        } 
     }
 }
