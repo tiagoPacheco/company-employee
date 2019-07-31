@@ -26,7 +26,7 @@ namespace challenge_samsung.Services.Impl
             List<Team> newTeams = AllocateEmployeesAtLeastTeamMaturity(teamsOrded, employees);
             BalanceTeamsAndAllocateMissingEmployees(ref teams, ref employees);
 
-            return teams;
+            return teams.OrderBy(t => t.Name).ToList();
         }
 
         private static List<Team> AllocateEmployeesAtLeastTeamMaturity(List<Team> teams, List<Employee> employees)

@@ -68,6 +68,7 @@ namespace challenge_samsung.Services.Impl
             Console.WriteLine(Commands.allocate);
             Console.WriteLine(Commands.promote);
             Console.WriteLine(Commands.balance);
+            Console.WriteLine(Commands.showTeams);
             Console.WriteLine(Commands.exit);
             showAsterisk(1, maxAsterisk, "*", true);
 

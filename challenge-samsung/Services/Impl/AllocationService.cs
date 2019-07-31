@@ -55,7 +55,7 @@ namespace challenge_samsung.Services.Impl
                 }
             }
 
-            return teams;
+            return teams.OrderBy(t => t.Name).ToList();
         }
 
         private void AllocateInTeam(List<Employee> employees, Team team)

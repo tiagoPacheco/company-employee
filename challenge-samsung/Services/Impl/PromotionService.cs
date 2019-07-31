@@ -49,7 +49,7 @@ namespace challenge_samsung.Services.Impl
                 employee.LastProgressionYear = _globalStorage.CurrentYear;
                 employee.Level += 1;
 
-                Console.WriteLine($"{employee.Name} From: {employee.Level - 1} - To: {employee.Level}");
+                Console.WriteLine($"{employee.Name} - From: {employee.Level - 1} - To: {employee.Level}");
             }
 
             if (employeesToPromote.Count > 0)
