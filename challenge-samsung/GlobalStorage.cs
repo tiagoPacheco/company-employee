@@ -6,7 +6,11 @@ namespace challenge_samsung
 {
     public class GlobalStorage
     {
-        public GlobalStorage()
+        private static readonly Lazy<GlobalStorage> instance = new Lazy<GlobalStorage>(() => new GlobalStorage());
+
+        public static GlobalStorage Instance { get { return instance.Value; } }
+        
+        private GlobalStorage()
         {
             Teams = new List<Team>();
             EmployeesFromFile = new List<Employee>();

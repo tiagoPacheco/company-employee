@@ -11,7 +11,7 @@ namespace challenge_samsung
     {
         static void Main(string[] args)
         {
-            var globalStorage = new GlobalStorage();
+            var globalStorage = GlobalStorage.Instance;
             IFileService fileService = new FileService(globalStorage);
             IAllocationService allocationService = new AllocationService(globalStorage);
             IPromotionService promotionService = new PromotionService(globalStorage);
