@@ -18,6 +18,8 @@ namespace challenge_samsung
             IBalanceService balanceService = new BalanceService(globalStorage);
             IConsoleService consoleService = new ConsoleService();
 
+            consoleService.ShowInitialInformation();
+
             var option = string.Empty;
 
             while (option != Commands.exit)
