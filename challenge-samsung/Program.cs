@@ -43,7 +43,7 @@ namespace challenge_samsung
                             Console.WriteLine(Messages.MSG002);
                             break;
                         case Commands.promote:
-                            promotionService.Promote(int.Parse(optionSplit[1]));
+                            promotionService.Promote(optionSplit.ElementAtOrDefault(1));
                             break;
                         case Commands.showTeams:
                             consoleService.ShowTeamsAndEmployeesDetail(globalStorage.Teams);

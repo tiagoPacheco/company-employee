@@ -12,6 +12,6 @@ namespace challenge_samsung.Services
         /// Promotes employees using an specific criteria
         /// </summary>
         /// <param name="qtyEmployeesToPromote">Quantity of users that will be promoted</param>
-        void Promote(int qtyEmployeesToPromote);
+        void Promote(string qtyEmployeesToPromote);
     }
 }

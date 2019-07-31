@@ -1,4 +1,5 @@
 ﻿using challenge_samsung.Models;
+using challenge_samsung.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,10 @@ namespace challenge_samsung.Services.Impl
 
         public List<Team> Allocate(List<Team> teams, List<Employee> employees)
         {
+
+            ValidateIfTeamExists(teams);
+            ValidateIfEmployeesExists(employees);
+
             var qtyTeams = teams.Count;
             employees = employees.OrderByDescending(o => o.Level).ToList();
             teams = teams.OrderByDescending(o => o.MinMaturity).ToList();
@@ -61,6 +66,22 @@ namespace challenge_samsung.Services.Impl
             employee.IsInAnyTeam = true;
             team.Employees.Add(employee);
             employees.RemoveAt(employeeIndex);
+        }
+
+        private void ValidateIfTeamExists(List<Team> teams)
+        {
+            if(teams == null || !teams.Any())
+            {
+                throw new BusinessException(Messages.MSG006);
+            }
+        }
+
+        private void ValidateIfEmployeesExists(List<Employee> employees)
+        {
+            if (employees == null || !employees.Any())
+            {
+                throw new BusinessException(Messages.MSG007);
+            }
         }
     }
 }

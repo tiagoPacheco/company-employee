@@ -1,4 +1,5 @@
 ﻿using challenge_samsung.Models;
+using challenge_samsung.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,11 @@ namespace challenge_samsung.Services.Impl
             _globalStorage = globalStorage;
         }
 
-        public void Promote(int qtyEmployeesToPromote)
+        public void Promote(string qtyEmployeesToPromote)
         {
+            int validQtyEmployeesToPromote = ValidateQtyEmployeesToPromote(qtyEmployeesToPromote);
+            ValidateIfEmployeesExists(_globalStorage.EmployeesInTeam);
+
             var employeesToPromote = new List<Promotion>();
 
             for (int employeeIndex = 0; employeeIndex < _globalStorage.EmployeesInTeam.Count; employeeIndex++)
@@ -29,7 +33,7 @@ namespace challenge_samsung.Services.Impl
                 employeesToPromote.Add(new Promotion { Index = employeeIndex, Score = score.Value });
             }
 
-            PromoteEmployees(qtyEmployeesToPromote, employeesToPromote);
+            PromoteEmployees(validQtyEmployeesToPromote, employeesToPromote);
         }
 
         private void PromoteEmployees(int qtyEmployeesToPromote, List<Promotion> employeesToPromote)
@@ -87,6 +91,25 @@ namespace challenge_samsung.Services.Impl
             score += age / 5;
 
             return score;
+        }
+
+        private int ValidateQtyEmployeesToPromote(string qtyEmployeesToPromote)
+        {
+            int qty;
+            if (!int.TryParse(qtyEmployeesToPromote, out qty))
+            {
+                throw new BusinessException(Messages.MSG008);
+            }
+
+            return qty;
+        }
+
+        private void ValidateIfEmployeesExists(List<Employee> employees)
+        {
+            if (employees == null || !employees.Any())
+            {
+                throw new BusinessException(Messages.MSG007);
+            }
         }
     }
 }

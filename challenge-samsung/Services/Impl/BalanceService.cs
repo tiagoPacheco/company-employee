@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using challenge_samsung.Models;
 using System.Linq;
+using challenge_samsung.Utils;
 
 namespace challenge_samsung.Services.Impl
 {
@@ -15,6 +16,9 @@ namespace challenge_samsung.Services.Impl
 
         public List<Team> BalanceTeams(List<Team> teams)
         {
+            ValidateIfTeamExists(teams);
+            ValidateIfEmployeesExists(_globalStorage.EmployeesInTeam);
+
             var teamsOrded = teams.OrderByDescending(o => o.MinMaturity).ToList();
             var employees = _globalStorage.EmployeesInTeam.OrderByDescending(o => o.Level).ToList();
             employees.ForEach(e => e.IsInAnyTeam = false);
@@ -35,7 +39,7 @@ namespace challenge_samsung.Services.Impl
                 team.Employees = new List<Employee>();
 
                 var employeesAbleCurrentTeam = employees.Where(e => !e.IsInAnyTeam && e.Level <= team.MinMaturity).ToList();
-                
+
                 for (int employeeIndex = 0; employeeIndex < employeesAbleCurrentTeam.Count; employeeIndex++)
                 {
                     var employee = employeesAbleCurrentTeam[employeeIndex];
@@ -89,6 +93,22 @@ namespace challenge_samsung.Services.Impl
 
                     }
                 }
+            }
+        }
+
+        private void ValidateIfTeamExists(List<Team> teams)
+        {
+            if (teams == null || !teams.Any())
+            {
+                throw new BusinessException(Messages.MSG006);
+            }
+        }
+
+        private void ValidateIfEmployeesExists(List<Employee> employees)
+        {
+            if (employees == null || !employees.Any())
+            {
+                throw new BusinessException(Messages.MSG007);
             }
         }
     }
