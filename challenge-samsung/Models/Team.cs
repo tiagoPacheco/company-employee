@@ -38,7 +38,7 @@ namespace challenge_samsung.Models
             {
                 var missingMaturity = MinMaturity - CurrentMaturity;
 
-                return missingMaturity <= 0 ? 0 : missingMaturity;
+                return missingMaturity;
             }
             set
             {

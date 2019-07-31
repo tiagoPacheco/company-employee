@@ -61,40 +61,106 @@ namespace challenge_samsung.Services.Impl
         }
 
         private static void BalanceTeamsAndAllocateMissingEmployees(
-            ref List<Team> teams, ref List<Employee> employees)
+            ref List<Team> teams, ref List<Employee> candidateEmployees)
         {
-            while (employees.Count != 0)
+
+            var tempTeams = new List<Team>();
+
+            for (int i = 0; i < teams.Count; i++)
             {
-                teams = teams.OrderBy(t => t.CurrentMaturity - t.MinMaturity).ToList();
-
-                for (int teamIndex = 0; teamIndex < teams.Count; teamIndex++)
-                {
-                    var team = teams[teamIndex];
-                    employees = employees.OrderByDescending(e => e.Level).ToList();
-
-                    for (int i = 0; i < employees.Count; i++)
-                    {
-                        var employee = employees[i];
-
-                        var employeeToRemove = team.Employees.FirstOrDefault(e => e.Level < employee.Level);
-
-                        if (employeeToRemove != null)
-                        {
-                            employeeToRemove.IsInAnyTeam = false;
-                            team.Employees.Remove(employeeToRemove);
-                            employees.Add(employeeToRemove);
-                        }
-                        else
-                        {
-                            team.Employees.Add(employee);
-                            employees.Remove(employee);
-                            break;
-                        }
-
-                    }
-                }
+                tempTeams.Add(new Team());
             }
+
+            candidateEmployees = candidateEmployees.OrderByDescending(e => e.Level).ToList();
+
+            candidateEmployees.ForEach(ce =>
+            {
+                var team = tempTeams.OrderBy(t => t.CurrentMaturity).First();
+
+                team.Employees.Add(ce);
+            });
+
+
+            var mainTeams = teams.OrderBy(t => t.ExtraMaturity).ToList();
+            tempTeams = tempTeams.OrderByDescending(t => t.CurrentMaturity).ToList();
+
+            for (int i = 0; i < mainTeams.Count; i++)
+            {
+                var mainTeam = mainTeams[i];
+                var tempTeam = tempTeams[i];
+
+                mainTeam.Employees.AddRange(tempTeam.Employees);
+            }
+
+
+
+
+            //while (candidateEmployees.Count != 0)
+            //{
+            //    teams = teams.OrderBy(t => t.ExtraMaturity).ToList();
+
+            //    for (int teamIndex = 0; teamIndex < teams.Count; teamIndex++)
+            //    {
+            //        var team = teams[teamIndex];
+            //        candidateEmployees = candidateEmployees.OrderByDescending(e => e.Level).ToList();
+
+            //        for (int i = 0; i < candidateEmployees.Count; i++)
+            //        {
+            //            var candidateEmployee = candidateEmployees[i];
+
+            //            var allocatedEmployee = team.Employees.FirstOrDefault(e => e.Level < candidateEmployee.Level);
+
+            //            if (allocatedEmployee != null)
+            //            {
+            //                allocatedEmployee.IsInAnyTeam = false;
+            //                team.Employees.Remove(allocatedEmployee);
+            //                candidateEmployees.Add(allocatedEmployee);
+            //            }
+
+            //            candidateEmployee.IsInAnyTeam = true;
+            //            team.Employees.Add(candidateEmployee);
+            //            candidateEmployees.Remove(candidateEmployee);
+            //            break;
+
+            //        }
+            //    }
+            //}
         }
+
+        //private static void BalanceTeamsAndAllocateMissingEmployees(
+        //    ref List<Team> teams, ref List<Employee> candidateEmployees)
+        //{
+        //    while (candidateEmployees.Count != 0)
+        //    {
+        //        teams = teams.OrderBy(t => t.ExtraMaturity).ToList();
+
+        //        for (int teamIndex = 0; teamIndex < teams.Count; teamIndex++)
+        //        {
+        //            var team = teams[teamIndex];
+        //            candidateEmployees = candidateEmployees.OrderByDescending(e => e.Level).ToList();
+
+        //            for (int i = 0; i < candidateEmployees.Count; i++)
+        //            {
+        //                var candidateEmployee = candidateEmployees[i];
+
+        //                var allocatedEmployee = team.Employees.FirstOrDefault(e => e.Level < candidateEmployee.Level);
+
+        //                if (allocatedEmployee != null)
+        //                {
+        //                    allocatedEmployee.IsInAnyTeam = false;
+        //                    team.Employees.Remove(allocatedEmployee);
+        //                    candidateEmployees.Add(allocatedEmployee);
+        //                }
+
+        //                candidateEmployee.IsInAnyTeam = true;
+        //                team.Employees.Add(candidateEmployee);
+        //                candidateEmployees.Remove(candidateEmployee);
+        //                break;
+
+        //            }
+        //        }
+        //    }
+        //}
 
         private void ValidateIfTeamExists(List<Team> teams)
         {
