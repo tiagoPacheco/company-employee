@@ -18,13 +18,13 @@ namespace challenge_samsung.Services.Impl
         public void Promote(string qtyEmployeesToPromote)
         {
             int validQtyEmployeesToPromote = ValidateQtyEmployeesToPromote(qtyEmployeesToPromote);
-            ValidateIfEmployeesExists(_globalStorage.EmployeesInTeam);
+            ValidateIfEmployeesExists(_globalStorage.AllocatedEmployees);
 
             var employeesToPromote = new List<Promotion>();
 
-            for (int employeeIndex = 0; employeeIndex < _globalStorage.EmployeesInTeam.Count; employeeIndex++)
+            for (int employeeIndex = 0; employeeIndex < _globalStorage.AllocatedEmployees.Count; employeeIndex++)
             {
-                var employee = _globalStorage.EmployeesInTeam[employeeIndex];
+                var employee = _globalStorage.AllocatedEmployees[employeeIndex];
 
                 var score = GetScore(employee);
 
@@ -44,7 +44,7 @@ namespace challenge_samsung.Services.Impl
             for (int i = 0; i < employeesToPromote.Count; i++)
             {
                 var employeeToPromote = employeesToPromote[i];
-                var employee = _globalStorage.EmployeesInTeam[employeeToPromote.Index];
+                var employee = _globalStorage.AllocatedEmployees[employeeToPromote.Index];
 
                 employee.LastProgressionYear = _globalStorage.CurrentYear;
                 employee.Level += 1;

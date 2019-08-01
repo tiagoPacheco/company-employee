@@ -23,8 +23,8 @@ namespace challenge_samsung
 
         public List<Employee> EmployeesFromFile { get; set; }
 
-        private List<Employee> _employeesInTeam;
-        public List<Employee> EmployeesInTeam
+        private List<Employee> _allocatedEmployees;
+        public List<Employee> AllocatedEmployees
         {
             get
             {
@@ -36,7 +36,7 @@ namespace challenge_samsung
             }
             set
             {
-                _employeesInTeam = value;
+                _allocatedEmployees = value;
             }
         }
     }

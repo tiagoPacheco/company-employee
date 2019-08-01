@@ -17,10 +17,10 @@ namespace challenge_samsung.Services.Impl
         public List<Team> BalanceTeams(List<Team> teams)
         {
             ValidateIfTeamExists(teams);
-            ValidateIfEmployeesExists(_globalStorage.EmployeesInTeam);
+            ValidateIfEmployeesExists(_globalStorage.AllocatedEmployees);
 
             var teamsOrded = teams.OrderByDescending(o => o.MinMaturity).ToList();
-            var employees = _globalStorage.EmployeesInTeam.OrderByDescending(o => o.Level).ToList();
+            var employees = _globalStorage.AllocatedEmployees.OrderByDescending(o => o.Level).ToList();
             employees.ForEach(e => e.IsInAnyTeam = false);
 
             List<Team> newTeams = AllocateEmployeesAtLeastTeamMaturity(teamsOrded, employees);
