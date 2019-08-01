@@ -24,9 +24,7 @@ namespace challenge_samsung.Services.Impl
             employees.ForEach(e => e.IsInAnyTeam = false);
 
             List<Team> newTeams = AllocateEmployeesAtLeastTeamMaturity(teamsOrded, employees);
-            BalanceTeamsAndAllocateMissingEmployees(ref teams, ref employees);
-
-            return teams.OrderBy(t => t.Name).ToList();
+            return BalanceTeamsAndAllocateMissingEmployees(ref teams, employees);
         }
 
         private static List<Team> AllocateEmployeesAtLeastTeamMaturity(List<Team> teams, List<Employee> employees)
@@ -60,107 +58,51 @@ namespace challenge_samsung.Services.Impl
             return newTeams;
         }
 
-        private static void BalanceTeamsAndAllocateMissingEmployees(
-            ref List<Team> teams, ref List<Employee> candidateEmployees)
+        private List<Team> BalanceTeamsAndAllocateMissingEmployees(
+            ref List<Team> teams, List<Employee> candidateEmployees)
         {
 
-            var tempTeams = new List<Team>();
-
-            for (int i = 0; i < teams.Count; i++)
-            {
-                tempTeams.Add(new Team());
-            }
-
-            candidateEmployees = candidateEmployees.OrderByDescending(e => e.Level).ToList();
-
-            candidateEmployees.ForEach(ce =>
-            {
-                var team = tempTeams.OrderBy(t => t.CurrentMaturity).First();
-
-                team.Employees.Add(ce);
-            });
-
+            var temporaryAllocationTeams = GetEmptyTeamsToAllocate(teams.Count);
+            AllocateCandidatesInTemporaryTeams(candidateEmployees, ref temporaryAllocationTeams);
 
             var mainTeams = teams.OrderBy(t => t.ExtraMaturity).ToList();
-            tempTeams = tempTeams.OrderByDescending(t => t.CurrentMaturity).ToList();
+            temporaryAllocationTeams = temporaryAllocationTeams.OrderByDescending(t => t.CurrentMaturity).ToList();
 
             for (int i = 0; i < mainTeams.Count; i++)
             {
                 var mainTeam = mainTeams[i];
-                var tempTeam = tempTeams[i];
+                var tempTeam = temporaryAllocationTeams[i];
 
                 mainTeam.Employees.AddRange(tempTeam.Employees);
             }
 
-
-
-
-            //while (candidateEmployees.Count != 0)
-            //{
-            //    teams = teams.OrderBy(t => t.ExtraMaturity).ToList();
-
-            //    for (int teamIndex = 0; teamIndex < teams.Count; teamIndex++)
-            //    {
-            //        var team = teams[teamIndex];
-            //        candidateEmployees = candidateEmployees.OrderByDescending(e => e.Level).ToList();
-
-            //        for (int i = 0; i < candidateEmployees.Count; i++)
-            //        {
-            //            var candidateEmployee = candidateEmployees[i];
-
-            //            var allocatedEmployee = team.Employees.FirstOrDefault(e => e.Level < candidateEmployee.Level);
-
-            //            if (allocatedEmployee != null)
-            //            {
-            //                allocatedEmployee.IsInAnyTeam = false;
-            //                team.Employees.Remove(allocatedEmployee);
-            //                candidateEmployees.Add(allocatedEmployee);
-            //            }
-
-            //            candidateEmployee.IsInAnyTeam = true;
-            //            team.Employees.Add(candidateEmployee);
-            //            candidateEmployees.Remove(candidateEmployee);
-            //            break;
-
-            //        }
-            //    }
-            //}
+            return mainTeams.OrderBy(mt => mt.Name).ToList();
         }
 
-        //private static void BalanceTeamsAndAllocateMissingEmployees(
-        //    ref List<Team> teams, ref List<Employee> candidateEmployees)
-        //{
-        //    while (candidateEmployees.Count != 0)
-        //    {
-        //        teams = teams.OrderBy(t => t.ExtraMaturity).ToList();
+        private static void AllocateCandidatesInTemporaryTeams(List<Employee> candidateEmployees, ref List<Team> temporaryAllocationTeams)
+        {
+            var candidateEmployeesSorted = candidateEmployees.OrderByDescending(e => e.Level).ToList();
 
-        //        for (int teamIndex = 0; teamIndex < teams.Count; teamIndex++)
-        //        {
-        //            var team = teams[teamIndex];
-        //            candidateEmployees = candidateEmployees.OrderByDescending(e => e.Level).ToList();
+            for (int i = 0; i < candidateEmployeesSorted.Count; i++)
+            {
+                var candidateEmployee = candidateEmployeesSorted[i];
+                var teamWithMinCurrentMaturity = temporaryAllocationTeams.OrderBy(t => t.CurrentMaturity).First();
 
-        //            for (int i = 0; i < candidateEmployees.Count; i++)
-        //            {
-        //                var candidateEmployee = candidateEmployees[i];
+                teamWithMinCurrentMaturity.Employees.Add(candidateEmployee);
+            }
+        }
 
-        //                var allocatedEmployee = team.Employees.FirstOrDefault(e => e.Level < candidateEmployee.Level);
+        private List<Team> GetEmptyTeamsToAllocate(int quantityOfTeams)
+        {
+            var emptyTeams = new List<Team>();
 
-        //                if (allocatedEmployee != null)
-        //                {
-        //                    allocatedEmployee.IsInAnyTeam = false;
-        //                    team.Employees.Remove(allocatedEmployee);
-        //                    candidateEmployees.Add(allocatedEmployee);
-        //                }
+            for (int i = 0; i < quantityOfTeams; i++)
+            {
+                emptyTeams.Add(new Team());
+            }
 
-        //                candidateEmployee.IsInAnyTeam = true;
-        //                team.Employees.Add(candidateEmployee);
-        //                candidateEmployees.Remove(candidateEmployee);
-        //                break;
-
-        //            }
-        //        }
-        //    }
-        //}
+            return emptyTeams;
+        }
 
         private void ValidateIfTeamExists(List<Team> teams)
         {
