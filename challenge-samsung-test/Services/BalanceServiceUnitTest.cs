@@ -20,7 +20,7 @@ namespace challenge_samsung_test
 
         private void InitializeServices()
         {
-            var globalStorage = new GlobalStorage();
+            var globalStorage = GlobalStorage.Instance;
             _balanceService = new BalanceService(globalStorage);
         }
 
